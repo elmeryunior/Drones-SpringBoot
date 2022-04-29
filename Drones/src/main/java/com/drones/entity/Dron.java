@@ -14,19 +14,14 @@ public class Dron {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@NotBlank(message = "Debe introducir un número de serie")
 	@Column(length = 100,unique = true)
 	private String numSerie;
-	@NotBlank(message = "Debe seleccionar un modelo")
 	@Column
 	private String modelo;
-	@NotBlank(message = "Este campo es obligatorio")
 	@Column
 	private Integer limitePeso;
-	@NotBlank(message = "Este campo es obligatorio")
 	@Column
-	private Double capacidadBateria;
-	@NotBlank(message = "Debe seleccionar un estado")
+	private Integer capacidadBateria;
 	@Column
 	private String estado;
 	
@@ -35,11 +30,7 @@ public class Dron {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Dron(@NotBlank(message = "Debe introducir un número de serie") @Max(100) String numSerie,
-			@NotBlank(message = "Debe seleccionar un modelo") String modelo,
-			@NotBlank(message = "Este campo es obligatorio") Integer limitePeso,
-			@NotBlank(message = "Este campo es obligatorio") Double capacidadBateria,
-			@NotBlank(message = "Debe seleccionar un estado") String estado) {
+	public Dron(String numSerie, String modelo, Integer limitePeso, Integer capacidadBateria, String estado) {
 		super();
 		this.numSerie = numSerie;
 		this.modelo = modelo;
@@ -80,11 +71,11 @@ public class Dron {
 		this.limitePeso = limitePeso;
 	}
 
-	public Double getCapacidadBateria() {
+	public Integer getCapacidadBateria() {
 		return capacidadBateria;
 	}
 
-	public void setCapacidadBateria(Double capacidadBateria) {
+	public void setCapacidadBateria(Integer capacidadBateria) {
 		this.capacidadBateria = capacidadBateria;
 	}
 
@@ -95,5 +86,6 @@ public class Dron {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
 	
 }

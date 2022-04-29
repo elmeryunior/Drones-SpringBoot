@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
@@ -16,35 +17,28 @@ public class Medicamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@NotBlank
 	@Column(unique = true)
 	private String nombre;
-	@NotBlank
 	@Column
 	private Integer peso;
-	@NotBlank
 	@Column
 	private String codigo;
-	@NotBlank
 	@Column
 	private String imagen;
-	
-	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Dron dron;
+	@Column
+    private String numSerieDron; 
 	
 	public Medicamento() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Medicamento(Integer id, @NotBlank String nombre, @NotBlank Integer peso, @NotBlank String codigo,
-			@NotBlank String imagen) {
+	public Medicamento(String nombre, Integer peso, String codigo, String imagen, String numSerieDron) {
 		super();
-		this.id = id;
 		this.nombre = nombre;
 		this.peso = peso;
 		this.codigo = codigo;
 		this.imagen = imagen;
+		this.numSerieDron = numSerieDron;
 	}
 
 	public Integer getId() {
@@ -87,12 +81,12 @@ public class Medicamento {
 		this.imagen = imagen;
 	}
 
-	public Dron getDron() {
-		return dron;
+	public String getNumSerieDron() {
+		return numSerieDron;
 	}
 
-	public void setDron(Dron dron) {
-		this.dron = dron;
+	public void setNumSerieDron(String numSerieDron) {
+		this.numSerieDron = numSerieDron;
 	}
 
 	

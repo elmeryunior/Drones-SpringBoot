@@ -49,4 +49,14 @@ public class DronServiceImplementation implements DronService{
 		return repository.getIdByNumSerie(numSerie);
 	}
 
+	@Override
+	public List<Dron> listaDronEnables() {
+		return repository.listaDronEnables();
+	}
+
+	@Override
+	public Integer getBattery(String numSerie) {
+		return repository.getBattery(numSerie);
+	}
+
 }

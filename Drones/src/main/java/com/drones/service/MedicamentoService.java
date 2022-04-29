@@ -14,7 +14,7 @@ public interface MedicamentoService {
 
 	public List<Medicamento> listaMedicamentos();
 	
-	public List<Medicamento> listaMedicamentosByDron(Integer dronId);
+	public List<Medicamento> listaMedicamentosByDron(String numSerie);
 	
 	public Medicamento guardarMedicamento(Medicamento medicamento);
 

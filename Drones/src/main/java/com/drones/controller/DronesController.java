@@ -40,15 +40,33 @@ public class DronesController {
 	@ApiOperation("Create Dron")
     @PostMapping("/createDron")
     public ResponseEntity<?> create(@RequestBody Dron dron){
+		
+		String [] modelo = {"Lightweight", "Middleweight", "Cruiserweight", "Heavyweight"};
+		String [] estado = {"IDLE", "LOADING", "LOADED", "DELIVERING", "DELIVERED", "RETURNING"};
+		
+		boolean mod  = false,est = false;
+		
+		for(int i=0;i<modelo.length;i++) {
+			if(modelo[i].equals(dron.getModelo())) {
+				mod = true;
+			}
+		}
+		
+		for(int i=0;i<estado.length;i++) {
+			if(estado[i].equals(dron.getEstado())) {
+				est = true;
+			}
+		}
+		
         if(StringUtils.isBlank(dron.getNumSerie()))
             return new ResponseEntity(new Mensaje("Serial number is required"), HttpStatus.BAD_REQUEST);
-        if(dron.getModelo()==null || !dron.getModelo().equals("Lightweight") || !dron.getModelo().equals("Middleweight") || !dron.getModelo().equals("Cruiserweight") || !dron.getModelo().equals("Heavyweight"))
-            return new ResponseEntity(new Mensaje("The types of models are:(Lightweight, Middleweight, Cruiserweight, Heavyweight)"), HttpStatus.BAD_REQUEST);
+        if(dron.getModelo() == null || mod==false)
+           return new ResponseEntity(new Mensaje("The types of models are:(Lightweight, Middleweight, Cruiserweight, Heavyweight)"), HttpStatus.BAD_REQUEST);
         if(dron.getLimitePeso()==null || dron.getLimitePeso()<0 || dron.getLimitePeso()>500)
             return new ResponseEntity(new Mensaje("The weight limit is 500 grams"), HttpStatus.BAD_REQUEST);
         if(dron.getCapacidadBateria()==null || dron.getCapacidadBateria()<0 || dron.getCapacidadBateria()>100)
             return new ResponseEntity(new Mensaje("Battery capacity should be between 0-100"), HttpStatus.BAD_REQUEST);
-        if(dron.getEstado()==null || !dron.getEstado().equals("IDLE") || !dron.getEstado().equals("LOADING") || !dron.getEstado().equals("LOADED") || !dron.getEstado().equals("DELIVERING") || !dron.getEstado().equals("DELIVERED") || !dron.getEstado().equals("RETURNING"))
+        if(dron.getEstado()==null || est==false)
             return new ResponseEntity(new Mensaje("States can be:(IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING)"), HttpStatus.BAD_REQUEST);
         if(dron.getEstado().equals("LOADING") && dron.getCapacidadBateria() < 25)
             return new ResponseEntity(new Mensaje("The drone cannot be in LOADING status if the battery level is less than 25%"), HttpStatus.BAD_REQUEST);
@@ -62,7 +80,41 @@ public class DronesController {
     public ResponseEntity<List<Medicamento>> getByNumSerie(@PathVariable("numSerie") String numSerie){
         if(!dronService.existsByNumSerie(numSerie))
             return new ResponseEntity(new Mensaje("There is no drone with this serial number"), HttpStatus.NOT_FOUND);
-        List<Medicamento> list = medicamentoService.listaMedicamentosByDron(dronService.getIdByNumSerie(numSerie));
+        List<Medicamento> list = medicamentoService.listaMedicamentosByDron(numSerie);
         return new ResponseEntity(list, HttpStatus.OK);
     }
+	
+	@ApiOperation("List of drones enables")
+    @GetMapping("/dronEnables")
+    public ResponseEntity<List<Dron>> getDronDisponible(){
+        List<Dron> list = dronService.listaDronEnables();
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+	
+	@ApiOperation("Drone battery level")
+    @GetMapping("/dronBattery/{numSerie}")
+    public ResponseEntity<?> getDronBateria(@PathVariable("numSerie") String numSerie){
+		if(!dronService.existsByNumSerie(numSerie))
+            return new ResponseEntity(new Mensaje("There is no drone with this serial number"), HttpStatus.NOT_FOUND);
+		Integer cap_battery = dronService.getBattery(numSerie);
+        return new ResponseEntity(new Mensaje("The battery level is " + cap_battery + " %"), HttpStatus.OK);
+    }
+	
+	@ApiOperation("Load a drone with medicines")
+    @PostMapping("/uploadDron")
+    public ResponseEntity<?> UploadDron(@RequestBody Medicamento medicamento){
+        if(StringUtils.isBlank(medicamento.getNombre()))
+            return new ResponseEntity(new Mensaje("The name of the drug is required"), HttpStatus.BAD_REQUEST);
+        if(medicamento.getPeso() == null || medicamento.getPeso()<0)
+           return new ResponseEntity(new Mensaje("Medication weight must be greater than 0"), HttpStatus.BAD_REQUEST);
+        if(medicamento.getCodigo() == null)
+            return new ResponseEntity(new Mensaje("Medication code is required"), HttpStatus.BAD_REQUEST);
+        if(medicamento.getImagen() == null)
+            return new ResponseEntity(new Mensaje("Enter Image URL"), HttpStatus.BAD_REQUEST);
+        if(medicamento.getNumSerieDron() == null)
+            return new ResponseEntity(new Mensaje("Enter the ID of the Drone"), HttpStatus.BAD_REQUEST);
+        Medicamento medicamento2 = new Medicamento(medicamento.getNombre(), medicamento.getPeso(), medicamento.getCodigo(), medicamento.getImagen(), medicamento.getNumSerieDron());
+        medicamentoService.guardarMedicamento(medicamento2);
+        return new ResponseEntity(new Mensaje("Dron uploaded"), HttpStatus.OK);
+	}
 }

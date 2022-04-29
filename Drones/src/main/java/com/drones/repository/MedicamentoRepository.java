@@ -12,6 +12,6 @@ import com.drones.entity.Medicamento;
 @Repository
 public interface MedicamentoRepository extends JpaRepository<Medicamento, Integer>{
 
-	@Query(nativeQuery = true, value = "SELECT * FROM `medicamento` WHERE `dron_id`= :dronId")
-	List<Medicamento> listaMedicamentosByDron(@Param("dronId") Integer dronId);
+	@Query(nativeQuery = true, value = "SELECT * FROM `medicamento` WHERE `num_serie_dron`= :numSerie")
+	List<Medicamento> listaMedicamentosByDron(@Param("numSerie") String numSerie);
 }

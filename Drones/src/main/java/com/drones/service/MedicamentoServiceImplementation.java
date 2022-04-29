@@ -42,8 +42,8 @@ public class MedicamentoServiceImplementation implements MedicamentoService{
 	}
 
 	@Override
-	public List<Medicamento> listaMedicamentosByDron(Integer dronId) {
-		return repository.listaMedicamentosByDron(dronId);
+	public List<Medicamento> listaMedicamentosByDron(String numSerie) {
+		return repository.listaMedicamentosByDron(numSerie);
 	}
 
 }
