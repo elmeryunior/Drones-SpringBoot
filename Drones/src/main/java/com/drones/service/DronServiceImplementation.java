@@ -15,48 +15,40 @@ public class DronServiceImplementation implements DronService{
 	private DronRepository repository;
 
 	@Override
-	public List<Dron> listaDrones() {
+	public List<Dron> listDrones() {
 		return repository.findAll();
 	}
 
 	@Override
-	public Dron guardarDron(Dron dron) {
-		return repository.save(dron);
+	public List<Dron> listDronEnables() {
+		return repository.listDronEnables();
 	}
 
 	@Override
-	public Dron obtenerDronId(Integer id) {
-		return repository.findById(id).get();
+	public boolean existsByNumSerie(String numSerie) {
+		return repository.existsBySerial(numSerie);
 	}
-
-	@Override
-	public Dron actualizarDron(Dron dron) {
-		return repository.save(dron);
-	}
-
-	@Override
-	public void eliminarDron(Integer id) {	
-		repository.deleteById(id);
-	}
-
-	@Override
-    public boolean existsByNumSerie(String numSerie){
-        return repository.existsByNumSerie(numSerie);
-    }
 
 	@Override
 	public Integer getIdByNumSerie(String numSerie) {
-		return repository.getIdByNumSerie(numSerie);
-	}
-
-	@Override
-	public List<Dron> listaDronEnables() {
-		return repository.listaDronEnables();
+		return repository.getIdBySerial(numSerie);
 	}
 
 	@Override
 	public Integer getBattery(String numSerie) {
 		return repository.getBattery(numSerie);
 	}
+
+	@Override
+	public Dron saveDron(Dron dron) {
+		return repository.save(dron);
+	}
+
+	@Override
+	public Dron findById(Integer id) {
+		return repository.findById(id).get();
+	}
+
+
 
 }

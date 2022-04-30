@@ -10,17 +10,13 @@ import com.drones.entity.Dron;
 @Service
 public interface DronService {
 
-	public List<Dron> listaDrones();
+	public List<Dron> listDrones();
 	
-	public List<Dron> listaDronEnables();
+	public List<Dron> listDronEnables();
 	
-	public Dron guardarDron(Dron dron);
-
-	public Dron obtenerDronId(Integer id);
-
-	public Dron actualizarDron(Dron dron);
-
-	public void eliminarDron(Integer id);
+	public Dron saveDron(Dron dron);
+	
+	public Dron findById(Integer id);
 	
 	public boolean existsByNumSerie(String numSerie);
 	

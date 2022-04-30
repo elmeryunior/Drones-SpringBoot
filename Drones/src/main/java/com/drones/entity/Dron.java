@@ -8,35 +8,41 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.lang.NonNull;
+
 @Entity
 public class Dron {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(length = 100,unique = true)
-	private String numSerie;
-	@Column
-	private String modelo;
-	@Column
-	private Integer limitePeso;
-	@Column
-	private Integer capacidadBateria;
-	@Column
-	private String estado;
-	
+	@Column(name = "serial", length = 100, unique = true)
+	@NonNull
+	private String serial;
+	@NonNull
+	@Column(name = "model")
+	private String model;
+	@Column(name = "weight_limit")
+	@NonNull
+	private Integer weight_limit;
+	@Column(name = "battery_capacity")
+	@NonNull
+	private Integer battery_capacity;
+	@Column(name = "state")
+	@NonNull
+	private String state;
+
 	public Dron() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Dron(String numSerie, String modelo, Integer limitePeso, Integer capacidadBateria, String estado) {
+	public Dron(String serial, String model, Integer weight_limit, Integer battery_capacity, String state) {
 		super();
-		this.numSerie = numSerie;
-		this.modelo = modelo;
-		this.limitePeso = limitePeso;
-		this.capacidadBateria = capacidadBateria;
-		this.estado = estado;
+		this.serial = serial;
+		this.model = model;
+		this.weight_limit = weight_limit;
+		this.battery_capacity = battery_capacity;
+		this.state = state;
 	}
 
 	public Integer getId() {
@@ -47,45 +53,43 @@ public class Dron {
 		this.id = id;
 	}
 
-	public String getNumSerie() {
-		return numSerie;
+	public String getSerial() {
+		return serial;
 	}
 
-	public void setNumSerie(String numSerie) {
-		this.numSerie = numSerie;
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 
-	public String getModelo() {
-		return modelo;
+	public String getModel() {
+		return model;
 	}
 
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
+	public void setModel(String model) {
+		this.model = model;
 	}
 
-	public Integer getLimitePeso() {
-		return limitePeso;
+	public Integer getWeight_limit() {
+		return weight_limit;
 	}
 
-	public void setLimitePeso(Integer limitePeso) {
-		this.limitePeso = limitePeso;
+	public void setWeight_limit(Integer weight_limit) {
+		this.weight_limit = weight_limit;
 	}
 
-	public Integer getCapacidadBateria() {
-		return capacidadBateria;
+	public Integer getBattery_capacity() {
+		return battery_capacity;
 	}
 
-	public void setCapacidadBateria(Integer capacidadBateria) {
-		this.capacidadBateria = capacidadBateria;
+	public void setBattery_capacity(Integer battery_capacity) {
+		this.battery_capacity = battery_capacity;
 	}
 
-	public String getEstado() {
-		return estado;
+	public String getState() {
+		return state;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setState(String state) {
+		this.state = state;
 	}
-
-	
 }
